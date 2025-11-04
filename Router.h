@@ -14,6 +14,7 @@ public:
     Router(std::string nombre);
     void agregarConexion(const std::string& destino, int costo);
     void mostrarConexciones()const;
+    const std::string& getId() const;
 };
 
 #endif // ROUTER_H

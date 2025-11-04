@@ -1,18 +1,22 @@
 #include <iostream>
+#include "NetWork.h"
 #include "Router.h"
 
 using namespace std;
 
 int main()
 {
-    Router A("A");
-    Router B("B");
+    NetWork red;
 
-    A.agregarConexion("B", 5);
-    A.agregarConexion("C", 7);
+    red.agregarRouter("A");
+    red.agregarRouter("B");
+    red.agregarRouter("C");
 
-    A.mostrarConexciones();
-    B.mostrarConexciones();
+    red.conetarRouters("A","B",5);
+    red.conetarRouters("B","C",3);
+    red.conetarRouters("A","C",8);
+
+    red.mostrarRed();
 
 
     cout << "Hello World!" << endl;

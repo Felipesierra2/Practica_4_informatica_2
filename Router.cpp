@@ -17,3 +17,6 @@ void Router::mostrarConexciones() const{
         std::cout << "-> "  << par.first << " (costo " << par.second << ")\n";
     }
 }
+
+const std::string& Router::getId() const { return id; }
+
