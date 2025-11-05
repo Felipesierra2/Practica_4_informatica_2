@@ -14,8 +14,11 @@ private:
     std::map<std::string, std::vector<std::pair<std::string,int>>> adj;
 public:
     void agregarRouter(const std::string& id);
-    void conetarRouters(const std::string& id1, const std::string& id2, int costo);
+    void conetarRouters(const std::string& id1, const std::string& id2, int costo, bool recompute = true);
     void mostrarRed() const;
+    void computeAllRoutes();
+    void removeLink(const std::string& id1, const std::string& id2, bool recompute = true);
+    bool loadFromFile(const std::string& path);
 
     int getCosto(const std::string& src, const std::string& dst) const;
     std::vector<std::string> getPath(const std::string& src, const std::string& dst)const;
