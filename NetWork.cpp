@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <random>
+
+
 
 
 
@@ -238,10 +241,10 @@ void NetWork::removeLink(const std::string& id1, const std::string& id2, bool re
     }
 
     auto r1 = routers.find(id1);
-    // if (r1 != routers.end()) r1->second.removeConexion(id2);
+    if (r1 != routers.end()) r1->second.removeConexion(id2);
 
     auto r2 = routers.find(id2);
-    // if(r2 != routers.end())r1->second.removeConexion(id2);
+    if(r2 != routers.end())r1->second.removeConexion(id2);
 
     if (recompute) computeAllRoutes();
 }
@@ -276,6 +279,71 @@ bool NetWork::loadFromFile(const std::string& path){
     return true;
 }
 
+void NetWork::removeRouter(const std::string& id, bool recompute){
+    auto it = routers.find(id);
+    if(it == routers.end()){
+        std::cout << "El router " << id << " no exite" << std::endl;
+        return;
+    }
+
+    auto itAdj = adj.find(id);
+    std::vector<std::string> vecinos;
+    if(itAdj != adj.end()){
+        for (const auto &p : itAdj->second) vecinos.push_back(p.first);
+    }
+
+    for(const auto &v : vecinos){
+        auto itv = adj.find(v);
+        if(itv != adj.end()){
+            auto& vec = itv->second;
+            vec.erase(std::remove_if(vec.begin(), vec.end(),
+                                     [&](const std::pair<std::string,int>& pr){return pr.first == id;}),
+                      vec.end());
+            if (vec.empty()) adj.erase(itv);
+        }
+
+        auto rt = routers.find(v);
+        if (rt != routers.end()){
+            rt->second.removeConexion(id);
+        }
+    }
+    if (itAdj != adj.end()) adj.erase(itAdj);
+
+    routers.erase(it);
+
+    if(recompute) computeAllRoutes();
+
+}
+
+void NetWork::generateRandom(int n, double density, int maxCost){
+    routers.clear();
+    adj.clear();
+
+    std::vector<std::string> ids;
+    ids.reserve(n);
+    for(int i = 0; i < n; i++){
+        std::string id = "R" + std::to_string(i);
+        ids.push_back(id);
+        agregarRouter(id);
+    }
+
+    std::mt19937 rng((unsigned)std::random_device{}());
+    std::uniform_real_distribution<double> prob(0.0,1.0);
+    std::uniform_int_distribution<int> costDist(1,std::max(1,maxCost));
+
+    for(int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (prob(rng) < density){
+                int c = costDist(rng);
+
+                conetarRouters(ids[i], ids[j], c, false );
+            }
+        }
+    }
+
+    computeAllRoutes();
+
+}
 
 
 

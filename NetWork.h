@@ -19,6 +19,8 @@ public:
     void computeAllRoutes();
     void removeLink(const std::string& id1, const std::string& id2, bool recompute = true);
     bool loadFromFile(const std::string& path);
+    void removeRouter(const std::string& id, bool recompute = true);
+    void generateRandom(int n, double density, int maxCost);
 
     int getCosto(const std::string& src, const std::string& dst) const;
     std::vector<std::string> getPath(const std::string& src, const std::string& dst)const;
