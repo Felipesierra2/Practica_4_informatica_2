@@ -1,18 +1,20 @@
-# Modelos de Enrutamiento - Práctica Universitaria
+# Simulación de red de enrutadores
 
-Implementación en C++ de diferentes algoritmos y modelos de enrutamiento para redes de computadoras.
+Compilar:
+  g++ -std=c++17 main.cpp Router.cpp Network.cpp -o red
 
-## 📋 Descripción
-Práctica académica que implementa diversos algoritmos de enrutamiento como:
-- Algoritmo de Dijkstra (camino más corto)
-- Enrutamiento por vector de distancia
-- Enrutamiento por estado de enlace
-- Otros modelos vistos en el curso
+Uso (CLI):
+  ./red
+  help  # lista comandos
 
-## 🛠️ Tecnologías
-- C++ 
-- Estructuras de datos para grafos
-- Algoritmos de optimización de rutas
+Formato archivo topología:
+  Cada línea: <A> <B> <cost>
+  Comentarios con '#'
 
-## 🎯 Objetivo
-Comprender y aplicar los fundamentos de los protocolos de enrutamiento en redes de computadoras mediante implementación práctica.
+Funcionalidades:
+ - Agregar / eliminar routers
+ - Agregar / eliminar enlaces
+ - Cargar topología desde archivo
+ - Generar red aleatoria
+ - Consultar costo y camino más corto (Dijkstra)
+ - Tablas de enrutamiento actualizan tras cambios
